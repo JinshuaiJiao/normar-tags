@@ -1,11 +1,6 @@
 # name，也就是当前 workflow 的名称
 name: normar-tags
 
-# 下文的意思是：当监听到tag的变更时，执行脚本，比如我们在 github 内新建一个tag
-on:
-  push:
-    tags:
-      - 'v*'
 
 # jobs 也就是任务的意思
 jobs:
