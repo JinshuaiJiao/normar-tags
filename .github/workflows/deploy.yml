@@ -1,35 +1,52 @@
-# name，也就是当前 workflow 的名称
-name: normar-tags
+# 整个流程的名字
+name: Release
 
+# 触发时机，在 main 分支 push 操作触发
+on:
+  push:
+    branches:
+      - main
 
-# jobs 也就是任务的意思
+# 默认shell
+defaults:
+  run:
+    shell: bash
+
+# 任务，定义个changelog 的任务
 jobs:
-  docs_and_publish:
-    # name: 在 Github 中显示的 job 名称
-    name: normar-tags
+  changelog:
+    name: Changelog PR or Release
     runs-on: ubuntu-latest
     steps:
-      # name:  当前 step 的名字
-      - name: Main    # 获取分支的代码和提交记录
-        uses: actions/Main
-
-      - name: Setup Node.js v20.x # 设置 Node.js 的环境
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      # 设置 pnpm。指定版本7.0，不然会报错
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2.2.1
         with:
-          node-version: '20.18.1'
+          version: ^9.14.2
 
-      - name: Install
-        run: npm install # 安装依赖
-
-      - name: Build
-        run: npm run package # 打包
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3 # 使用部署到 GitHub pages 的 action
-
-      - name: Publish to NPM  # 推送到 NPM 上
-        run: |
-          npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-          npm publish
+      # 设置 Node
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      # 安装依赖
+      - name: Install dependencies
+        run: pnpm install
+      # 打包
+      - name: Build Packages
+        run: npm run package
+      # 这一步是最重要的。使用changesets/action自动创建 PR 或者发布
+      - name: Create Release Pull Request or Publish
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # 执行更新版本和发布的命令
+          version: npm run version
+          publish: npm exec changeset publish
+          commit: '[ci] release'
+          title: '[ci] release'
         env:
+          # NPM_TOKEN 需要稍后在 npm 网站生成。
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH }}
