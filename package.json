@@ -1,0 +1,20 @@
+{
+  "name": "normal-tags",
+  "version": "0.0.2",
+  "description": "![输入图片说明](https://foruda.gitee.com/images/1734515019438418872/8d983064_10776309.png \"Snipaste_2024-12-18_17-43-18.png\")",
+  "main": "normal-tags.es.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "normal",
+    "nor-tags",
+    "tags",
+    "tag",
+    "ta",
+    "normal-tag",
+    "normal-tags"
+  ],
+  "author": "evenKnow",
+  "license": "ISC"
+}
