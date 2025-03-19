@@ -3,6 +3,7 @@
   "version": "0.0.3",
   "description": "![输入图片说明](https://foruda.gitee.com/images/1734515019438418872/8d983064_10776309.png \"Snipaste_2024-12-18_17-43-18.png\")",
   "main": "normal-tags.es.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
