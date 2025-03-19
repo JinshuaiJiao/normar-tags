@@ -17,7 +17,7 @@ jobs:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
           
-      - run: npm ci --prefer-offline --no-audit
+      - run: npm ci
       - run: npm whoami --registry https://registry.npmjs.org/
         # 身份验证预检查
       - run: npm publish
