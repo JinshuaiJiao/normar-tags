@@ -16,8 +16,12 @@ jobs:
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm config set proxy false
-      - run: npm i
+          # 自动缓存依赖优化构建速度
+          cache: 'npm'
+          
+      - run: npm ci --prefer-offline --no-audit
+      - run: npm whoami --registry https://registry.npmjs.org/
+        # 身份验证预检查
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NORMALTAG_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
