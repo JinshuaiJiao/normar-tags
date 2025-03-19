@@ -17,7 +17,6 @@ jobs:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm config set proxy false
-      - run: npm cache clean
       - run: npm i
       - run: npm publish
         env:
